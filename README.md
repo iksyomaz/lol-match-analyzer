@@ -97,5 +97,4 @@ http://localhost:5000
 ## 📦 Coming soon
 
 - Visual charts (damage over time, map heatmaps).
-- Export to CSV.
 - Hosting on Render.com
