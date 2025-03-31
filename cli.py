@@ -8,17 +8,26 @@ from config import API_KEY, REGION, CACHE_DB, load_custom_summoners, save_custom
 from datetime import datetime
 
 def get_summoner_by_riot_id(game_name, tag_line):
-    """
-    Retrieve account info (including puuid) using the Riot Account API v1.
-    This endpoint requires both gameName and tagLine.
-    """
     encoded_game_name = urllib.parse.quote(game_name)
     encoded_tag_line = urllib.parse.quote(tag_line)
     url = f"https://{REGION}.api.riotgames.com/riot/account/v1/accounts/by-riot-id/{encoded_game_name}/{encoded_tag_line}"
     headers = {"X-Riot-Token": API_KEY}
+
     response = requests.get(url, headers=headers)
-    response.raise_for_status()
-    return response.json()
+
+    try:
+        response.raise_for_status()
+        data = response.json()
+
+        # Ensure expected keys are present
+        if not all(k in data for k in ["puuid", "gameName", "tagLine"]):
+            print("❌ Unexpected API response structure:", data)
+            return None
+
+        return data
+    except requests.exceptions.HTTPError as err:
+        print(f"❌ Riot API error: {err} - {response.text}")
+        return None
 
 def init_db():
     """Initialize the SQLite database and create tables if they do not exist."""

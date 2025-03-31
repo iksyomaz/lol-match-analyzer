@@ -43,8 +43,14 @@ def index():
                 if not game_name or not tag_line:
                     raise ValueError("Missing Riot ID (gameName and tagLine).")
                 summoner_data = get_summoner_by_riot_id(game_name, tag_line)
+
+                if not summoner_data:
+                    error = "Summoner not found or invalid Riot ID."
+                    return render_template("index.html", summoners=dropdown_summoners, result=None, error=error)
+
                 puuid = summoner_data["puuid"]
                 summoner_name = summoner_data["gameName"]
+
                 save_custom_summoner(summoner_name, puuid)
                 dropdown_summoners[summoner_name] = {"name": summoner_name, "puuid": puuid}
             else:
