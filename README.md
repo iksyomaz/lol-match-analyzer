@@ -3,8 +3,6 @@
 This is a lightweight Flask web app that analyzes recent **League of Legends** matches using the **Riot Games API**.  
 It provides performance insights like Kill Participation, Ability Uses, Scuttle Crabs, First Tower timings, and more.
 
-![Screenshot](https://github.com/iksyomaz/lol-match-analyzer/assets/preview.png) <!-- optional if you add a screenshot later -->
-
 ---
 
 ## 🚀 Features
@@ -14,7 +12,9 @@ It provides performance insights like Kill Participation, Ability Uses, Scuttle 
   - Minions @10
   - Kill Participation %
   - First Tower time
-  - Assists, Crabs, Abilities used
+  - Assists
+  - Crabs
+  - Abilities used
   - Total Damage to Champions
 - 💾 Match data cached in SQLite for speed
 - 🌐 Simple web UI with sortable, searchable DataTables
@@ -75,15 +75,14 @@ Then open: [http://localhost:5000](http://localhost:5000)
 
 ## 🛡️ Notes
 
-- `.env`, `.db` files and proprietary `index.ts` are excluded from this public repo.
 - For personal use, clone or fork privately and store API keys safely.
 
 ---
 
 ## 📦 Coming soon
 
-- Visual charts (damage over time, map heatmaps)
-- Export to CSV
+- Visual charts (damage over time, map heatmaps).
+- Export to CSV.
 - Hosting on Render.com
 
 ---
@@ -106,10 +105,3 @@ gunicorn
 ✅ Works for both local dev and Render hosting.
 
 ---
-
-Let me know if you'd like:
-- a ZIP with the cleaned repo
-- a Render `render.yaml` deploy config
-- to add badges (Python version, license, etc.) to the README
-
-You're *so* close to launch! 🚀
