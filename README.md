@@ -38,7 +38,13 @@ pip install -r requirements.txt
 
 ### 3. Add your Riot API key
 
-Open the existing `.env` file and replace the placeholder with your Riot API key:
+You can inject your Riot API key into the `.env` file directly from the terminal. Replace `PASTE_YOUR_API_KEY_HERE` with your actual API key:
+
+```bash
+echo 'RIOT_API_KEY="PASTE_YOUR_API_KEY_HERE"' > .env
+```
+
+Alternatively, you can manually open the `.env` file and edit it to include your API key:
 
 ```env
 RIOT_API_KEY="PASTE_YOUR_API_KEY_HERE"
@@ -63,10 +69,10 @@ http://localhost:5000
 
 ```plaintext
 .
-├── app.py                    # Flask app entry point (was flask_app.py)
-├── cli.py                    # CLI tool for analyzing matches (was main.py)
+├── app.py                    # Flask app entry point
+├── cli.py                    # CLI tool for analyzing matches
 ├── config.py                 # API setup & constants
-├── summoners.json            # Stored summoners (was custom_summoners.json)
+├── summoners.json            # Stored summoners
 ├── templates/
 │   └── index.html            # Web UI template
 ├── .env                      # Riot API key (excluded in public)
@@ -79,7 +85,7 @@ http://localhost:5000
 
 ## 🛡️ Notes
 
-- For personal use, clone or fork privately and store API keys safely.
+- For personal use, clone or fork privately and store API keys safely!
 
 ---
 
