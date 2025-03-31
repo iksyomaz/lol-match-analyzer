@@ -5,3 +5,4 @@ __pycache__/
 *.sqlite
 index.ts
 players.md
+build/

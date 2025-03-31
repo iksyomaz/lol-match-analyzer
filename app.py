@@ -97,6 +97,27 @@ def index():
                 )
 
             df = get_analysis_data_for_summoner(summoner_name)
+            
+            # Format duration from seconds to mm:ss
+            df['game_duration'] = df['game_duration'].apply(
+                lambda s: f"{s // 60}m{s % 60:02d}s" if s else "0m00s"
+            )
+
+            # Format KP% as xx.xx%
+            df['kill_participation'] = df['kill_participation'].apply(
+                lambda x: f"{x:.2f}%" if x else "0.00%"
+            )
+
+            # Format first tower time from ms to ss:ms
+            df['first_structure_ts'] = df['first_structure_ts'].apply(
+                lambda ms: f"{int(ms // 1000)}s{int(ms % 1000):03d}ms" if ms else "N/A"
+            )
+
+            # Format damage with thousands separator using space
+            df['total_damage_dealt'] = df['total_damage_dealt'].apply(
+                lambda d: f"{int(d):,}".replace(",", " ") if d else "0"
+            )
+            
             df.rename(columns={
                 'summoner_name': 'Summoner',
                 'match_id': 'Match ID',
