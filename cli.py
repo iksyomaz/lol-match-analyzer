@@ -64,6 +64,7 @@ def init_db():
             scuttle_crabs INTEGER,
             abilityUses INTEGER,
             total_damage_dealt INTEGER,
+            time_ccing_others INTEGER,
             PRIMARY KEY (summoner_name, match_id)
         )
     ''')
@@ -183,6 +184,13 @@ def analyze_first_structure(timeline, match_details, summoner_puuid):
                             first_ts = t
     return first_ts
 
+def analyze_timeCCingOthers(match_details, summoner_puuid):
+    for p in match_details['info']['participants']:
+        if p['puuid'] == summoner_puuid:
+            # Ensure the key exists and is a valid number
+            return p.get('timeCCingOthers', 0) or 0
+    return 0
+
 def analyze_assists(match_details, summoner_puuid):
     for p in match_details['info']['participants']:
         if p['puuid'] == summoner_puuid:
@@ -233,7 +241,7 @@ def get_game_mode(match_details):
 def store_analysis_result(summoner_name, match_id, game_datetime, game_duration,
                           champion, game_mode,
                           minions_at_10, kill_part, first_struct,
-                          assists, scuttles, ability_uses, total_damage):
+                          assists, scuttles, ability_uses, total_damage, time_ccing_others):
     """
     Store the final per-match stats in the 'analysis' table.
     If the row already exists for (summoner_name, match_id), it is replaced.
@@ -244,9 +252,9 @@ def store_analysis_result(summoner_name, match_id, game_datetime, game_duration,
         REPLACE INTO analysis (
             summoner_name, match_id, game_datetime, game_duration, champion, gameMode,
             minions_at_10, kill_participation, first_structure_ts,
-            assists, scuttle_crabs, abilityUses, total_damage_dealt
+            assists, scuttle_crabs, abilityUses, total_damage_dealt, time_ccing_others
         )
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     ''', (
         summoner_name,
         match_id,
@@ -260,7 +268,8 @@ def store_analysis_result(summoner_name, match_id, game_datetime, game_duration,
         assists,
         scuttles,
         ability_uses,
-        total_damage
+        total_damage,
+        time_ccing_others
     ))
     conn.commit()
     conn.close()
@@ -367,6 +376,7 @@ def main():
         scuttles = analyze_scuttle_crabs(match_details, puuid)
         ability_uses = analyze_ability_uses(match_details, puuid)
         total_damage = analyze_total_damage(match_details, puuid)
+        time_ccing_others = analyze_timeCCingOthers(match_details, puuid)  # New analysis
         champion = get_champion(match_details, puuid)
         game_mode = get_game_mode(match_details)
         # Extract game duration from match details (assumed to be in seconds)
@@ -389,7 +399,8 @@ def main():
             assists,
             scuttles,
             ability_uses,
-            total_damage
+            total_damage,
+            time_ccing_others
         )
 
     # Retrieve and show analysis results
@@ -418,7 +429,8 @@ def main():
             'assists': 'Assists',
             'scuttle_crabs': 'Crabs',
             'abilityUses': 'Abilities',
-            'total_damage_dealt': 'Damage'
+            'total_damage_dealt': 'Damage',
+            'time_ccing_others': 'CC Time'  # Add this column for display
         }, inplace=True)
 
     print("\nAnalysis results from 'analysis' table:")

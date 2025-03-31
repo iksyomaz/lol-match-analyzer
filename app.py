@@ -4,7 +4,8 @@ from cli import (
     init_db, get_match_timeline_cached, get_match_details_cached,
     analyze_minions, analyze_kill_participation, analyze_first_structure,
     analyze_assists, analyze_scuttle_crabs, analyze_ability_uses,
-    analyze_total_damage, get_champion, get_game_mode,
+    analyze_total_damage, analyze_timeCCingOthers,  # Added analyze_timeCCingOthers
+    get_champion, get_game_mode,
     store_analysis_result
 )
 from datetime import datetime
@@ -80,6 +81,7 @@ def index():
                 scuttles = analyze_scuttle_crabs(match_details, puuid)
                 ability_uses = analyze_ability_uses(match_details, puuid)
                 total_damage = analyze_total_damage(match_details, puuid)
+                time_ccing_others = analyze_timeCCingOthers(match_details, puuid)  # Fix: Correct function call
                 champion = get_champion(match_details, puuid)
                 game_mode = get_game_mode(match_details)
                 game_duration = match_details['info'].get('gameDuration', 0)
@@ -99,7 +101,8 @@ def index():
                     assists,
                     scuttles,
                     ability_uses,
-                    total_damage
+                    total_damage,
+                    time_ccing_others  # Fix: Ensure correct variable is passed
                 )
 
             df = get_analysis_data_for_summoner(summoner_name)
@@ -123,6 +126,11 @@ def index():
             df['total_damage_dealt'] = df['total_damage_dealt'].apply(
                 lambda d: f"{int(d):,}".replace(",", " ") if d else "0"
             )
+
+            # Format time CCing others as seconds
+            df['time_ccing_others'] = df['time_ccing_others'].apply(  # Fix: Ensure correct column name is used
+                lambda s: f"{s}s" if s else "0s"
+            )
             
             df.rename(columns={
                 'summoner_name': 'Summoner',
@@ -137,7 +145,8 @@ def index():
                 'assists': 'Assists',
                 'scuttle_crabs': 'Crabs',
                 'abilityUses': 'Abilities',
-                'total_damage_dealt': 'Damage'
+                'total_damage_dealt': 'Damage',
+                'time_ccing_others': 'CC Time (s)',  # Add new column name
             }, inplace=True)
 
             result_table = df.to_html(classes="table table-bordered", index=False, border=0, justify="center")
