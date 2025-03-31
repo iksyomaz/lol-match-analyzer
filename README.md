@@ -27,16 +27,21 @@ It provides performance insights like Kill Participation, Ability Uses, Scuttle 
 
 ```bash
 git clone https://github.com/iksyomaz/lol-match-analyzer.git
+```
+
+### 2. Navigate to the project directory
+
+```bash
 cd lol-match-analyzer
 ```
 
-### 2. Install dependencies
+### 3. Install dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 3. Add your Riot API key
+### 4. Add your Riot API key
 
 You can inject your Riot API key into the `.env` file directly from the terminal. Replace `PASTE_YOUR_API_KEY_HERE` with your actual API key:
 
