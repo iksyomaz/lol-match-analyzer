@@ -55,7 +55,7 @@ RIOT_API_KEY="PASTE_YOUR_API_KEY_HERE"
 ## ▶️ Run the App
 
 ```bash
-python lolapi.py
+python app.py
 ```
 
 Then open:
