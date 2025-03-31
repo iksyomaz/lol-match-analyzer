@@ -52,7 +52,10 @@ RIOT_API_KEY="PASTE_YOUR_API_KEY_HERE"
 python flask_app.py
 ```
 
-Then open: [http://localhost:5000](http://localhost:5000)
+Then open:
+```bash
+http://localhost:5000
+```
 
 ---
 
@@ -84,24 +87,3 @@ Then open: [http://localhost:5000](http://localhost:5000)
 - Visual charts (damage over time, map heatmaps).
 - Export to CSV.
 - Hosting on Render.com
-
----
-
-## 🧙‍♂️ Made with ❤️ by [iksyomaz](https://github.com/iksyomaz)
-```
-
----
-
-## 📦 `requirements.txt`
-
-```txt
-flask
-requests
-python-dotenv
-pandas
-gunicorn
-```
-
-✅ Works for both local dev and Render hosting.
-
----
