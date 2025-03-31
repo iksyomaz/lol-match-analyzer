@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request
-from lolapi.cli import (
+from cli import (
     get_summoner_by_riot_id, get_analysis_data_for_summoner,
     init_db, get_match_timeline_cached, get_match_details_cached,
     analyze_minions, analyze_kill_participation, analyze_first_structure,
